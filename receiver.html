@@ -51,8 +51,10 @@
     </style>
     <script>
         const $ = document.querySelector.bind(document);
+        const validHosts = ['https://mhynson.github.io', 'http://local.mhdigitalsolutions.com:5500'];
         window.addEventListener("message", (event) => {
-            if (event.origin !== "http://localhost:5500") return;   // localhost simply for demo purposes
+            console.log(event.origin);
+            if (-1 === validHosts.indexOf(event.origin)) return;   // localhost simply for demo purposes
             const data = JSON.parse(`${event.data}`);
             if (data.name) {
                 $('#special-you').innerHTML = `Hi, ${data.name}!`;

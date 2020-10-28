@@ -71,7 +71,7 @@
                 const name = $('#first-name').value || 'Unknown Person';
                 const data = JSON.stringify({ name });
                 try {
-                    $receiver.contentWindow.postMessage(data,'http://mhynson.com');
+                    $receiver.contentWindow.postMessage(data,'https://mhdigitalsolutions.com');
                 } catch (err) {
                     console.error(err);
                     msg = 'Looks like something went wrong.'
@@ -97,7 +97,7 @@
     </form>
     <div id="message"></div>
 
-    <iframe id="receiver" src="http://mhynson.com/demos/postMessage/receiver.html" width="100%" height="400">
+    <iframe id="receiver" src="https://mhdigitalsolutions.com/demos/postMessage/receiver.html" width="100%" height="400">
     <p>Your browser does not support iframes.</p>
     </iframe>
 </body>
