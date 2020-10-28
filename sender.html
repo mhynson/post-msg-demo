@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostMessage Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        input.std-input {
+            border: none;
+            border-bottom: 4px solid #f9f9f9;
+            width: 100%;
+            max-width: 320px;
+            height: 2.5rem;
+            font-size: 2rem;
+            display: block;
+            margin: 1rem auto;
+            text-align: center;
+        }
+
+        #submit-btn {
+            display: block;
+            margin: 1rem auto;
+            font-size: 1.25rem;
+            color: white;
+            background-color: seagreen;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1.25rem 2rem;
+        }
+        #message {
+            height: 3em;
+            opacity: 0;
+            transition: all 500ms ease-in-out;
+            text-align: center;
+        }
+        #message.visible {
+            opacity: 1;
+        }
+        #message.success {
+            color: seagreen;
+        }
+        #message.error {
+            color: crimson;
+        }
+    </style>
+    <script>
+        window.onload = (evt) => {
+            const $ = document.querySelector.bind(document);
+            const $$ = document.querySelectorAll.bind(document);
+
+            const $form = $('#that-form');
+            const $receiver = $('#receiver');
+            const $messageContainer = $('#message');
+            let msgType = 'success';
+            let msg = 'Thank you! View your submission in the page below.';
+
+            $form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = $('#first-name').value || 'Unknown Person';
+                const data = JSON.stringify({ name });
+                try {
+                    $receiver.contentWindow.postMessage(data,'http://mhynson.com');
+                } catch (err) {
+                    console.error(err);
+                    msg = 'Looks like something went wrong.'
+                    msgType = 'error';
+                }
+
+                $messageContainer.innerHTML = msg;
+                $messageContainer.classList.remove(...$messageContainer.classList);
+                $messageContainer.classList.add(msgType, 'visible');
+
+                setTimeout(() => {
+                    $messageContainer.classList.remove('visible');
+                }, 3000);
+            });
+        };
+    </script>
+</head>
+<body>
+    <h1>Post Message Demo</h1>
+    <form id="that-form">
+        <input class="std-input"  type="text" id="first-name" placeholder="Enter your name" />
+        <input type="submit" id="submit-btn" value="Send" />
+    </form>
+    <div id="message"></div>
+
+    <iframe id="receiver" src="http://mhynson.com/demos/postMessage/receiver.html" width="100%" height="400">
+    <p>Your browser does not support iframes.</p>
+    </iframe>
+</body>
+</html>
